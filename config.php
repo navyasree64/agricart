@@ -41,18 +41,16 @@ if ($isLocalhost) {
     }
 } else {
     // ==========================================
-    // PRODUCTION SETTINGS (Railway / InfinityFree)
-    // Railway automatically provides MYSQLHOST, MYSQLUSER etc. as env vars.
-    // InfinityFree fallback credentials are used if Railway env vars are not set.
+    // PRODUCTION SETTINGS (InfinityFree)
     // ==========================================
-    define('DB_HOST', getenv('MYSQLHOST')     ?: 'sql207.infinityfree.com');
-    define('DB_USER', getenv('MYSQLUSER')     ?: 'if0_42108185');
-    define('DB_PASS', getenv('MYSQLPASSWORD') ?: 'jpSlFNwdGePrqE');
-    define('DB_NAME', getenv('MYSQLDATABASE') ?: 'if0_42108185_agricart');
-    define('DB_PORT', getenv('MYSQLPORT')     ?: 3306);
+    define('DB_HOST', 'sql207.infinityfree.com');
+    define('DB_USER', 'if0_42108185');
+    define('DB_PASS', 'jpSlFNwdGePrqE');
+    define('DB_NAME', 'if0_42108185_agricart');
+    define('DB_PORT', 3306);
 
-    // Build base URL dynamically
-    $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
-    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
-    define('BASE_URL', $protocol . $host . '/');
+    // InfinityFree free plan - use http:// (no SSL on free tier)
+    $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'agricart.ifree.page';
+    define('BASE_URL', 'http://' . $host . '/');
 }
+
