@@ -2,7 +2,7 @@
   "name": "agricart",
   "description": "AgriCart E-commerce Platform",
   "require": {
-    "php": ">=7.4"
+    "php": "8.3"
   },
   "scripts": {
     "start": "php -S 0.0.0.0:$PORT router.php"
