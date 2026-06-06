@@ -1,9 +1,9 @@
 <?php
 /**
- * Configuration File
+ * Configuration File Template
  * 
- * This file handles database configuration and site configuration
- * dynamically depending on whether it's running locally or on production (InfinityFree).
+ * Copy this file to 'config.php' and fill in your actual database credentials.
+ * DO NOT commit the actual 'config.php' with credentials to Git.
  */
 
 // Start session if not already active
@@ -41,16 +41,15 @@ if ($isLocalhost) {
     }
 } else {
     // ==========================================
-    // PRODUCTION SETTINGS (InfinityFree)
+    // PRODUCTION SETTINGS (InfinityFree / Other)
     // ==========================================
-    define('DB_HOST', 'sql207.infinityfree.com');
-    define('DB_USER', 'if0_42108185');
-    define('DB_PASS', 'jpSlFNwdGePrqE');
-    define('DB_NAME', 'if0_42108185_agricart');
+    define('DB_HOST', 'your_production_mysql_host');
+    define('DB_USER', 'your_production_mysql_user');
+    define('DB_PASS', 'your_production_mysql_password');
+    define('DB_NAME', 'your_production_mysql_db_name');
     define('DB_PORT', 3306);
 
-    // InfinityFree free plan - use http:// (no SSL on free tier)
-    $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'agricart.ifree.page';
+    // Build base URL for production
+    $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'yourdomain.com';
     define('BASE_URL', 'http://' . $host . '/');
 }
-

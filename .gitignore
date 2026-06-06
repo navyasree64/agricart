@@ -36,6 +36,8 @@ temp/
 *.sql
 *.db
 *.sqlite
+!db_export.sql
+!setup_database.sql
 
 # Uploads (if you have user uploads)
 uploads/
@@ -46,6 +48,7 @@ cache/
 tmp/
 
 # Configuration files with sensitive data
+config.php
 config/database.php
 config/config.php
 
