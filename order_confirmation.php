@@ -237,7 +237,7 @@ unset($_SESSION['order_id']);
                 <p><strong>Order Number:</strong> #<?php echo $order['id']; ?></p>
                 <p><strong>Order Date:</strong> <?php echo date('F j, Y', strtotime($order['created_at'])); ?></p>
                 <p><strong>Status:</strong> <span class="status pending"><?php echo ucfirst($order['status']); ?></span></p>
-                <p><strong>Total Amount:</strong> $<?php echo number_format($order['total_amount'], 2); ?></p>
+                <p><strong>Total Amount:</strong> ₹<?php echo number_format($order['total_amount'], 2); ?></p>
             </div>
 
             <div class="order-items">
@@ -249,7 +249,7 @@ unset($_SESSION['order_id']);
                             <div class="item-details">
                                 <h4><?php echo htmlspecialchars($item['name']); ?></h4>
                                 <p>Quantity: <?php echo $item['quantity']; ?></p>
-                                <p>Price: $<?php echo number_format($item['price'], 2); ?></p>
+                                <p>Price: ₹<?php echo number_format($item['price'], 2); ?></p>
                             </div>
                         </div>
                     <?php endforeach; ?>

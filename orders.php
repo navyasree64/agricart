@@ -6,7 +6,6 @@
  */
 session_start();
 require_once('db.php');
-require_once('adminlogin.php'); // Create this for centralized admin authentication
 
 // Check admin authentication
 checkAdminAuth();
@@ -47,14 +46,6 @@ include('admin_header.php'); // Create this file for admin header
     <div class="admin-content">
         <div class="admin-header">
             <h1><?= $pageTitle ?></h1>
-            <div class="admin-actions">
-                <a href="export_orders.php" class="btn btn-secondary">
-                    <i class="fas fa-file-export"></i> Export to CSV
-                </a>
-                <a href="orders_report.php" class="btn btn-primary">
-                    <i class="fas fa-chart-bar"></i> Sales Report
-                </a>
-            </div>
         </div>
         
         <?php include('notifications.php'); // Create this file for displaying session messages ?>
@@ -969,6 +960,21 @@ function sendShippingNotification($order_id) {
         background: var(--border-color);
     }
 
+    .page-link.prev,
+    .page-link.next {
+        font-weight: 500;
+        background: #f8f9fa;
+        color: var(--primary-color);
+        border-color: var(--primary-color);
+        gap: 6px;
+    }
+
+    .page-link.prev:hover,
+    .page-link.next:hover {
+        background: var(--primary-color) !important;
+        color: white !important;
+    }
+
     /* Notifications */
     .message {
         padding: 12px 15px;
@@ -1114,4 +1120,4 @@ function sendShippingNotification($order_id) {
     });
 </script>
 
-<?php include('footer.php'); // Create this file for admin footer ?>
+<?php include('admin_footer.php'); ?>

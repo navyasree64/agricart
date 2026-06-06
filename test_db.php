@@ -3,9 +3,10 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$host = 'localhost';
-$username = 'root';
-$password = '';
+require_once __DIR__ . '/config.php';
+$host = DB_HOST;
+$username = DB_USER;
+$password = DB_PASS;
 
 try {
     // First, connect without selecting a database

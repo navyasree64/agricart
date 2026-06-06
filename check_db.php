@@ -3,10 +3,11 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Database connection
-$host = 'localhost';
-$dbname = 'agri_ecommerce';
-$username = 'root';
-$password = '';
+require_once __DIR__ . '/config.php';
+$host = DB_HOST;
+$dbname = DB_NAME;
+$username = DB_USER;
+$password = DB_PASS;
 
 try {
     $conn = new mysqli($host, $username, $password, $dbname);

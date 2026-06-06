@@ -25,9 +25,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
 
 // Get order details
 $stmt = $conn->prepare("
-    SELECT o.*, u.name as customer_name, u.email as customer_email
+    SELECT o.*, u.name as customer_name, u.email as customer_email,
+           a.full_name as shipping_name, a.phone as shipping_phone,
+           a.address_line1 as shipping_address, a.address_line2, a.city, a.state, a.postal_code
     FROM orders o
     JOIN users u ON o.user_id = u.id
+    LEFT JOIN user_addresses a ON o.address_id = a.id
     WHERE o.id = ?
 ");
 $stmt->bind_param("i", $order_id);
@@ -51,17 +54,7 @@ include('admin_header.php');
 
 <div class="admin-container">
     <div class="admin-sidebar">
-        <div class="logo">
-            <h2>Admin Panel</h2>
-        </div>
-        <ul class="nav-menu">
-            <li><a href="dashboard.php"><i class="fas fa-home"></i> Dashboard</a></li>
-            <li><a href="productadmin.php"><i class="fas fa-box"></i> Manage Products</a></li>
-            <li><a href="orders.php" class="active"><i class="fas fa-shopping-cart"></i> Manage Orders</a></li>
-            <li><a href="users.php"><i class="fas fa-users"></i> Manage Users</a></li>
-            <li><a href="categories.php"><i class="fas fa-tags"></i> Manage Categories</a></li>
-            <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-        </ul>
+        <?php include('includes/admin_sidebar.php'); ?>
     </div>
     
     <div class="admin-content">
@@ -78,6 +71,7 @@ include('admin_header.php');
                     <div class="info-card">
                         <h3>Order Information</h3>
                         <p><strong>Order Date:</strong> <?php echo date('F j, Y H:i', strtotime($order['created_at'])); ?></p>
+                        <p><strong>Payment Method:</strong> <span class="status-badge" style="background: #e3f2fd; color: #0d47a1; padding: 2px 6px; border-radius: 4px; font-size: 13px; font-weight: bold;"><?php echo htmlspecialchars($order['payment_method'] ?? 'COD'); ?></span></p>
                         <p><strong>Order Status:</strong> 
                             <form action="" method="post" class="status-form">
                                 <select name="status" onchange="this.form.submit()">
@@ -101,8 +95,10 @@ include('admin_header.php');
                     
                     <div class="info-card">
                         <h3>Shipping Address</h3>
-                        <p><?php echo htmlspecialchars($order['shipping_address'] ?? ''); ?></p>
-                        <p>
+                        <p><strong>Name:</strong> <?php echo htmlspecialchars($order['shipping_name'] ?? $order['customer_name']); ?></p>
+                        <p><strong>Address:</strong> <?php echo htmlspecialchars($order['shipping_address'] ?? ''); ?>
+                           <?php if (!empty($order['address_line2'])) echo ", " . htmlspecialchars($order['address_line2']); ?></p>
+                        <p><strong>City/State:</strong> 
                             <?php 
                             $address_parts = [];
                             if (!empty($order['city'])) $address_parts[] = $order['city'];
@@ -111,7 +107,7 @@ include('admin_header.php');
                             echo htmlspecialchars(implode(', ', $address_parts));
                             ?>
                         </p>
-                        <p><?php echo htmlspecialchars($order['country'] ?? ''); ?></p>
+                        <p><strong>Phone:</strong> <?php echo htmlspecialchars($order['shipping_phone'] ?? ''); ?></p>
                     </div>
                 </div>
                 

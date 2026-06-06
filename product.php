@@ -416,6 +416,8 @@ include 'header.php';
 
 .rating-selector {
     display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
     gap: 10px;
 }
 
@@ -425,6 +427,7 @@ include 'header.php';
 
 .rating-selector label {
     cursor: pointer;
+    font-size: 1.6rem;
     color: #ddd;
     transition: color 0.3s;
 }
@@ -612,7 +615,7 @@ textarea {
                                     <span class="reviewer-name"><?php echo htmlspecialchars($review['user_name']); ?></span>
                                     <div class="rating">
                                         <?php for ($i = 1; $i <= 5; $i++): ?>
-                                            <i class="fa fa-star<?= $i <= $review['rating'] ? '' : '-o' ?>"></i>
+                                            <i class="<?= $i <= $review['rating'] ? 'fas' : 'far' ?> fa-star"></i>
                                         <?php endfor; ?>
                                     </div>
                                     <span class="review-date"><?= date('M d, Y', strtotime($review['date_added'])); ?></span>
@@ -635,9 +638,9 @@ textarea {
                             <div class="form-group">
                                 <label for="rating">Rating:</label>
                                 <div class="rating-selector">
-                                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                                    <?php for ($i = 5; $i >= 1; $i--): ?>
                                         <input type="radio" id="star<?php echo $i; ?>" name="rating" value="<?php echo $i; ?>" required>
-                                        <label for="star<?php echo $i; ?>"><i class="fa fa-star"></i></label>
+                                        <label for="star<?php echo $i; ?>"><i class="fas fa-star"></i></label>
                                     <?php endfor; ?>
                                 </div>
                             </div>
@@ -665,39 +668,42 @@ document.addEventListener('DOMContentLoaded', function() {
     const decrementBtn = document.querySelector('[data-qty-action="decrement"]');
     const incrementBtn = document.querySelector('[data-qty-action="increment"]');
     const totalPriceElement = document.getElementById('total-price');
-    const pricePerUnit = parseFloat(quantityInput.dataset.price);
     
-    function updateTotalPrice() {
-        const quantity = parseInt(quantityInput.value);
-        const totalPrice = quantity * pricePerUnit;
-        totalPriceElement.textContent = '₹' + totalPrice.toFixed(2);
+    if (quantityInput && decrementBtn && incrementBtn && totalPriceElement) {
+        const pricePerUnit = parseFloat(quantityInput.dataset.price);
+        
+        function updateTotalPrice() {
+            const quantity = parseInt(quantityInput.value);
+            const totalPrice = quantity * pricePerUnit;
+            totalPriceElement.textContent = '₹' + totalPrice.toFixed(2);
+        }
+        
+        decrementBtn.addEventListener('click', function() {
+            let currentValue = parseInt(quantityInput.value);
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 1;
+                updateTotalPrice();
+            }
+        });
+        
+        incrementBtn.addEventListener('click', function() {
+            let currentValue = parseInt(quantityInput.value);
+            const maxValue = parseInt(quantityInput.max);
+            if (currentValue < maxValue) {
+                quantityInput.value = currentValue + 1;
+                updateTotalPrice();
+            }
+        });
+        
+        quantityInput.addEventListener('change', function() {
+            let value = parseInt(this.value);
+            const maxValue = parseInt(this.max);
+            if (value < 1) value = 1;
+            if (value > maxValue) value = maxValue;
+            this.value = value;
+            updateTotalPrice();
+        });
     }
-    
-    decrementBtn.addEventListener('click', function() {
-        let currentValue = parseInt(quantityInput.value);
-        if (currentValue > 1) {
-            quantityInput.value = currentValue - 1;
-            updateTotalPrice();
-        }
-    });
-    
-    incrementBtn.addEventListener('click', function() {
-        let currentValue = parseInt(quantityInput.value);
-        const maxValue = parseInt(quantityInput.max);
-        if (currentValue < maxValue) {
-            quantityInput.value = currentValue + 1;
-            updateTotalPrice();
-        }
-    });
-    
-    quantityInput.addEventListener('change', function() {
-        let value = parseInt(this.value);
-        const maxValue = parseInt(this.max);
-        if (value < 1) value = 1;
-        if (value > maxValue) value = maxValue;
-        this.value = value;
-        updateTotalPrice();
-    });
     
     // Show cart message if exists
     <?php if (isset($_SESSION['cart_message'])): ?>

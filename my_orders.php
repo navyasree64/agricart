@@ -232,14 +232,14 @@ $orders = getUserOrders($userId);
                                     <div class="item-details">
                                         <h4><?php echo htmlspecialchars($item['name']); ?></h4>
                                         <p>Quantity: <?php echo $item['quantity']; ?></p>
-                                        <p>Price: $<?php echo number_format($item['price'], 2); ?></p>
+                                        <p>Price: ₹<?php echo number_format($item['price'], 2); ?></p>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
                         </div>
 
                         <div class="order-total">
-                            Total: $<?php echo number_format($order['total_amount'], 2); ?>
+                            Total: ₹<?php echo number_format($order['total_amount'], 2); ?>
                         </div>
                     </div>
                 <?php endforeach; ?>

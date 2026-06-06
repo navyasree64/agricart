@@ -1,10 +1,12 @@
 <?php
 // Database connection
 function getDbConnection() {
-    $host = 'localhost';
-    $dbname = 'agri_ecommerce';
-    $username = 'root';
-    $password = '';
+    require_once __DIR__ . '/../config.php';
+    
+    $host = DB_HOST;
+    $dbname = DB_NAME;
+    $username = DB_USER;
+    $password = DB_PASS;
     
     try {
         $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
@@ -30,9 +32,9 @@ function getOrderDetails($orderId) {
     try {
         // First try to get order with address
         $stmt = $conn->prepare("
-            SELECT o.*, a.address_line1, a.address_line2, a.city, a.state, a.postal_code, a.country 
+            SELECT o.*, a.address_line1, a.address_line2, a.city, a.state, a.postal_code, a.phone as country 
             FROM orders o 
-            LEFT JOIN addresses a ON o.address_id = a.id 
+            LEFT JOIN user_addresses a ON o.address_id = a.id 
             WHERE o.id = ? AND o.user_id = ?
         ");
         $stmt->execute([$orderId, getCurrentUserId()]);

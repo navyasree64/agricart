@@ -7,10 +7,23 @@ include('db.php');
 
 // Configuration
 $siteName = "AgriCart";
-$baseUrl = "http://localhost/webfinal/";
+$baseUrl = BASE_URL;
 
-// Get current season
-$currentMonth = date('M');
+// Get current season from query param or system date
+$seasonParam = isset($_GET['season']) ? strtolower($_GET['season']) : '';
+
+if ($seasonParam == 'winter') {
+    $currentMonth = 'Jan';
+} elseif ($seasonParam == 'spring') {
+    $currentMonth = 'Apr';
+} elseif ($seasonParam == 'summer') {
+    $currentMonth = 'Jul';
+} elseif ($seasonParam == 'fall') {
+    $currentMonth = 'Oct';
+} else {
+    $currentMonth = date('M');
+}
+
 $currentSeason = '';
 $seasonDescription = '';
 $recommendedCrops = [];

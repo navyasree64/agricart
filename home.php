@@ -705,8 +705,14 @@ if (isset($conn)) {
       <?php
       // Try to fetch discounted products from database
       $seasonal_products = [];
-      
-     
+      if (isset($conn)) {
+          $result = $conn->query("SELECT id, name, description, price, discount_price, image FROM products WHERE discount_price > 0 LIMIT 4");
+          if ($result && $result->num_rows > 0) {
+              while ($row = $result->fetch_assoc()) {
+                  $seasonal_products[] = $row;
+              }
+          }
+      }
       
       // If no products from database, use fallback data
       if (empty($seasonal_products)) {

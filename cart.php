@@ -2,6 +2,13 @@
 session_start();
 include('db.php');
 
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION['error'] = "Please log in to access the cart.";
+    header("Location: login.php");
+    exit();
+}
+
 // Initialize cart if not set
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];

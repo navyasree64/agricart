@@ -55,29 +55,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // Create order
-    $orderId = createOrder($_SESSION['user_id'], $selectedAddress['id'], $totals['total']);
-    if ($orderId) {
-        // Add items to order
-        foreach ($cartItems as $item) {
-            addOrderItem($orderId, $item['product']['id'], $item['quantity'], $item['product']['price']);
-        }
-        
-        // Clear cart
-        clearCart();
-        
-        // Set success flag
-        $_SESSION['order_success'] = true;
-        $_SESSION['order_id'] = $orderId;
-        
-        // Redirect to order confirmation
-        header("Location: order_confirmation.php");
-        exit;
-    } else {
-        $_SESSION['error'] = "Failed to create order";
-        header('Location: checkout.php');
-        exit;
-    }
+    // Get payment method
+    $paymentMethod = $_POST['payment_method'] ?? 'UPI';
+
+    // Store details in session for processing in payment.php
+    $_SESSION['checkout_address_id'] = $selectedAddress['id'];
+    $_SESSION['checkout_payment_method'] = $paymentMethod;
+    header("Location: payment.php");
+    exit;
 }
 
 // Generate CSRF token
@@ -157,12 +142,7 @@ include 'header.php';
                     <h3>Payment Method</h3>
                     <div class="payment-methods">
                         <label class="payment-method">
-                            <input type="radio" name="payment_method" value="COD" required>
-                            <span>Cash on Delivery</span>
-                        </label>
-                        
-                        <label class="payment-method">
-                            <input type="radio" name="payment_method" value="UPI" required>
+                            <input type="radio" name="payment_method" value="UPI" required checked>
                             <span>UPI / Google Pay / PhonePe</span>
                         </label>
                         

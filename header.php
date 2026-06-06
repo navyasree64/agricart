@@ -1,7 +1,8 @@
 <?php
 // Configuration and helper functions
+require_once __DIR__ . '/config.php';
 $siteName = "AgriCart";
-$baseUrl = "http://localhost/webfinal/"; // Update this to your actual base URL
+$baseUrl = BASE_URL;
 
 // Check if user is logged in
 $isLoggedIn = isset($_SESSION['user_id']);
@@ -13,6 +14,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $siteName; ?> - Agricultural Marketplace</title>
     <link rel="stylesheet" href="<?php echo $baseUrl; ?>assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" href="<?php echo $baseUrl; ?>favicon.ico" type="image/x-icon">
     <style>
       /* Reset and base styles */
@@ -191,7 +193,7 @@ body {
                         Cart 
                         <?php 
                         // Optional: Display cart item count
-                        $cartItemCount = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
+                        $cartItemCount = (isset($_SESSION['user_id']) && isset($_SESSION['cart'])) ? count($_SESSION['cart']) : 0;
                         if ($cartItemCount > 0) {
                             echo "<span class='cart-count'>$cartItemCount</span>";
                         }

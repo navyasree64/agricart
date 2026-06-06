@@ -414,11 +414,23 @@ include('header.php'); // Move header to separate file
 
         <!-- Main Content -->
         <div class="col-md-8">
+            <?php if (isset($_SESSION['success'])): ?>
+                <div class="alert alert-success">
+                    <?= $_SESSION['success']; unset($_SESSION['success']); ?>
+                </div>
+            <?php endif; ?>
+            
+            <?php if (isset($_SESSION['error'])): ?>
+                <div class="alert alert-danger">
+                    <?= $_SESSION['error']; unset($_SESSION['error']); ?>
+                </div>
+            <?php endif; ?>
+
             <!-- Profile Information Section -->
             <div class="profile-content" id="profile">
                 <div class="profile-header">
                     <h1>Profile Information</h1>
-                    <p class="last-login">Last login: <?= date('M d, Y H:i', strtotime($user['updated_at'])) ?></p>
+                    <p class="last-login">Member since: <?= date('M d, Y', strtotime($user['created_at'])) ?></p>
                 </div>
                 
                 <div class="info-grid">
@@ -481,18 +493,6 @@ include('header.php'); // Move header to separate file
             <!-- Saved Addresses Section -->
             <div class="profile-content" id="addresses" style="display: none;">
                 <h3>Saved Addresses</h3>
-                
-                <?php if (isset($_SESSION['success'])): ?>
-                    <div class="alert alert-success">
-                        <?= $_SESSION['success']; unset($_SESSION['success']); ?>
-                    </div>
-                <?php endif; ?>
-                
-                <?php if (isset($_SESSION['error'])): ?>
-                    <div class="alert alert-danger">
-                        <?= $_SESSION['error']; unset($_SESSION['error']); ?>
-                    </div>
-                <?php endif; ?>
                 
                 <?php
                 $addresses = getUserAddresses($_SESSION['user_id']);
@@ -647,6 +647,15 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById(targetId).style.display = 'block';
         });
     });
+
+    // Check URL hash on page load to switch tabs automatically
+    const hash = window.location.hash;
+    if (hash) {
+        const targetLink = document.querySelector(`.profile-nav a[href="${hash}"]`);
+        if (targetLink) {
+            setTimeout(() => targetLink.click(), 50);
+        }
+    }
     
     // Address form handling
     const addAddressBtn = document.getElementById('add-address-btn');
@@ -704,7 +713,7 @@ function getUserProfile($userId) {
     global $conn;
     
     $stmt = $conn->prepare("
-        SELECT u.id, u.name, u.email, u.created_at, u.updated_at,
+        SELECT u.id, u.name, u.email, u.phone, u.created_at,
                DATEDIFF(NOW(), u.created_at) as days_member
         FROM users u
         WHERE u.id = ?

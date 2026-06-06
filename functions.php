@@ -140,10 +140,10 @@ function getRelatedProducts($category_id, $exclude_id, $limit = 4) {
 function getProductReviews($product_id) {
     global $conn;
     $stmt = $conn->prepare("SELECT r.*, u.name as user_name 
-                          FROM reviews r 
+                          FROM product_reviews r 
                           JOIN users u ON r.user_id = u.id 
-                          WHERE product_id = ? 
-                          ORDER BY date_added DESC");
+                          WHERE r.product_id = ? 
+                          ORDER BY r.date_added DESC");
     $stmt->bind_param("i", $product_id);
     $stmt->execute();
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -152,7 +152,7 @@ function getProductReviews($product_id) {
 function getProductRating($product_id) {
     global $conn;
     $stmt = $conn->prepare("SELECT AVG(rating) as average, COUNT(*) as count 
-                          FROM reviews 
+                          FROM product_reviews 
                           WHERE product_id = ?");
     $stmt->bind_param("i", $product_id);
     $stmt->execute();
@@ -443,23 +443,6 @@ function getProductAdditionalImages($product_id) {
     return $images;
 }
 
-function getProductSpecifications($product_id) {
-    global $conn;
-    $product_id = (int)$product_id;
-    
-    $sql = "SELECT spec_name, spec_value FROM product_specifications WHERE product_id = ? ORDER BY display_order ASC";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $product_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    
-    $specs = [];
-    while ($row = $result->fetch_assoc()) {
-        $specs[] = $row;
-    }
-    
-    return $specs;
-}
 
 // User Address Functions
 function getUserAddresses($userId) {
@@ -592,11 +575,11 @@ function getOrderDetails($orderId, $userId) {
 }
 
 // Order Management Functions
-function createOrder($userId, $addressId, $totalAmount) {
+function createOrder($userId, $addressId, $totalAmount, $paymentMethod = 'COD') {
     global $conn;
     
-    $stmt = $conn->prepare("INSERT INTO orders (user_id, total_amount, status, created_at) VALUES (?, ?, 'pending', NOW())");
-    $stmt->bind_param("id", $userId, $totalAmount);
+    $stmt = $conn->prepare("INSERT INTO orders (user_id, address_id, total_amount, payment_method, status, created_at) VALUES (?, ?, ?, ?, 'pending', NOW())");
+    $stmt->bind_param("iids", $userId, $addressId, $totalAmount, $paymentMethod);
     
     if ($stmt->execute()) {
         return $conn->insert_id;
@@ -611,5 +594,13 @@ function addOrderItem($orderId, $productId, $quantity, $price) {
     $stmt->bind_param("iiid", $orderId, $productId, $quantity, $price);
     
     return $stmt->execute();
+}
+
+function getProductSpecifications($productId) {
+    global $conn;
+    $stmt = $conn->prepare("SELECT spec_name, spec_value FROM product_specifications WHERE product_id = ?");
+    $stmt->bind_param("i", $productId);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
 ?>

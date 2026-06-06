@@ -3,6 +3,10 @@ session_start();
 include('db.php');
 
 $error = '';
+if (isset($_SESSION['error'])) {
+    $error = $_SESSION['error'];
+    unset($_SESSION['error']);
+}
 $redirect = isset($_GET['redirect']) ? $_GET['redirect'] : 'home.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -221,6 +225,7 @@ include('header.php');
     <div class="login-footer">
         <p>Don't have an account? <a href="register.php">Register here</a></p>
         <p><a href="forgot-password.php">Forgot your password?</a></p>
+        <p style="margin-top: 1rem; border-top: 1px dashed #ddd; padding-top: 0.8rem;">Are you an administrator? <a href="adminlogin.php" style="color: #2c3e50; font-weight: 600;">Admin Login</a></p>
     </div>
 </div>
 

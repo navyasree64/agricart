@@ -14,17 +14,7 @@ include('admin_header.php');
 
 <div class="admin-container">
     <div class="admin-sidebar">
-        <div class="logo">
-            <h2>Admin Panel</h2>
-        </div>
-        <ul class="nav-menu">
-            <li><a href="dashboard.php" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
-            <li><a href="productadmin.php"><i class="fas fa-box"></i> Manage Products</a></li>
-            <li><a href="orders.php"><i class="fas fa-shopping-cart"></i> Manage Orders</a></li>
-            <li><a href="users.php"><i class="fas fa-users"></i> Manage Users</a></li>
-            <li><a href="categories.php"><i class="fas fa-tags"></i> Manage Categories</a></li>
-            <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-        </ul>
+        <?php include('includes/admin_sidebar.php'); ?>
     </div>
     
     <div class="admin-content">

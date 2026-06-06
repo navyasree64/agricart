@@ -12,7 +12,7 @@ include('db.php');
 
 // Configuration and helper functions
 $siteName = "AgriCart";
-$baseUrl = "http://localhost/webfinal/"; // Update this to your actual base URL
+$baseUrl = BASE_URL;
 
 // Check if user is logged in
 $isLoggedIn = isset($_SESSION['user_id']);
@@ -670,22 +670,27 @@ $currentPage = 'categories';
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 40px;
+            min-width: 40px;
+            width: auto;
             height: 40px;
-            border-radius: var(--border-radius-sm);
+            padding: 0 14px;
+            border-radius: 6px;
             background: var(--bg-white);
             color: var(--text-dark);
             text-decoration: none;
             border: 1px solid #ddd;
             transition: all var(--transition-normal);
+            font-size: 0.95rem;
+            font-weight: 500;
         }
         
         .pagination a:hover {
             background: var(--secondary-color);
             border-color: #ccc;
+            color: var(--primary-color);
         }
         
-        .pagination .current {
+        .pagination .current, .pagination a.active {
             background: var(--primary-color);
             color: white;
             border-color: var(--primary-color);
@@ -1204,7 +1209,7 @@ $currentPage = 'categories';
                                     <?php endif; ?>
                                 </ul>
                             </div>
-                            <a href="<?php echo $baseUrl; ?>seasonal-guide.php" class="btn btn-secondary" style="width: 100%; text-align: center;">View Full Guide</a>
+                            <a href="<?php echo $baseUrl; ?>farming-guides.php" class="btn btn-secondary" style="width: 100%; text-align: center;">View Full Guide</a>
                         </div>
                     </div>
                 </div>

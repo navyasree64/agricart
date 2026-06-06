@@ -7,7 +7,7 @@ include('db.php');
 
 // Configuration
 $siteName = "AgriCart";
-$baseUrl = "http://localhost/webfinal/"; // Update this to your actual base URL
+$baseUrl = BASE_URL;
 
 // Active page for navigation
 $currentPage = 'about';
@@ -211,81 +211,7 @@ $currentPage = 'about';
             </div>
         </div>
 
-        <!-- Team Section -->
-        <div class="team-section">
-            <h2 class="section-title">Meet Our Team</h2>
-            <div class="team-grid">
-                <div class="team-member">
-                    <img src="<?php echo $baseUrl; ?>assets/images/team/madhav.jpg" alt="Madhav">
-                    <div class="team-info">
-                        <h3>Madhav</h3>
-                        <div class="position">Team Lead</div>
-                        <p class="bio">Leading our team with expertise in project management and agricultural technology solutions.</p>
-                        <div class="social-links">
-                            <a href="#"><i class="fab fa-linkedin"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fas fa-envelope"></i></a>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="team-member">
-                    <img src="<?php echo $baseUrl; ?>assets/images/team/koushik.jpg" alt="Koushik">
-                    <div class="team-info">
-                        <h3>Koushik</h3>
-                        <div class="position">Technical Lead</div>
-                        <p class="bio">Expert in web development and system architecture, ensuring our platform runs smoothly.</p>
-                        <div class="social-links">
-                            <a href="#"><i class="fab fa-linkedin"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fas fa-envelope"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="team-member">
-                    <img src="<?php echo $baseUrl; ?>assets/images/team/nandan.jpg" alt="Nandan">
-                    <div class="team-info">
-                        <h3>Nandan</h3>
-                        <div class="position">UI/UX Designer</div>
-                        <p class="bio">Creating beautiful and intuitive user interfaces that enhance the user experience.</p>
-                        <div class="social-links">
-                            <a href="#"><i class="fab fa-linkedin"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fas fa-envelope"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="team-member">
-                    <img src="<?php echo $baseUrl; ?>assets/images/team/navya.jpg" alt="Navya">
-                    <div class="team-info">
-                        <h3>Navya</h3>
-                        <div class="position">Content Manager</div>
-                        <p class="bio">Managing and creating engaging content that helps farmers make informed decisions.</p>
-                        <div class="social-links">
-                            <a href="#"><i class="fab fa-linkedin"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fas fa-envelope"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="team-member">
-                    <img src="<?php echo $baseUrl; ?>assets/images/team/chetan.jpg" alt="Chetan">
-                    <div class="team-info">
-                        <h3>Chetan</h3>
-                        <div class="position">Backend Developer</div>
-                        <p class="bio">Building robust backend systems and ensuring data security for our platform.</p>
-                        <div class="social-links">
-                            <a href="#"><i class="fab fa-linkedin"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fas fa-envelope"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <!-- Values Section -->
         <div class="values-section">

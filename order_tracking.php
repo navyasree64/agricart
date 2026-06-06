@@ -13,9 +13,12 @@ $order_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 // Get order details
 $stmt = $conn->prepare("
-    SELECT o.*, u.name as customer_name, u.email as customer_email
+    SELECT o.*, u.name as customer_name, u.email as customer_email,
+           ua.full_name as shipping_name, ua.phone as shipping_phone, 
+           ua.address_line1, ua.address_line2, ua.city, ua.state, ua.postal_code
     FROM orders o
     JOIN users u ON o.user_id = u.id
+    LEFT JOIN user_addresses ua ON o.address_id = ua.id
     WHERE o.id = ? AND o.user_id = ?
 ");
 $stmt->bind_param("ii", $order_id, $_SESSION['user_id']);
@@ -56,7 +59,17 @@ include('header.php');
                 
                 <div class="info-card">
                     <h3>Shipping Address</h3>
-                    <p><?php echo !empty($order['shipping_address']) ? htmlspecialchars($order['shipping_address']) : 'No shipping address provided'; ?></p>
+                    <?php if (!empty($order['address_line1'])): ?>
+                        <p><strong><?php echo htmlspecialchars($order['shipping_name']); ?></strong></p>
+                        <p><?php echo htmlspecialchars($order['address_line1']); ?></p>
+                        <?php if (!empty($order['address_line2'])): ?>
+                            <p><?php echo htmlspecialchars($order['address_line2']); ?></p>
+                        <?php endif; ?>
+                        <p><?php echo htmlspecialchars($order['city'] . ', ' . $order['state'] . ' - ' . $order['postal_code']); ?></p>
+                        <p>Phone: <?php echo htmlspecialchars($order['shipping_phone']); ?></p>
+                    <?php else: ?>
+                        <p>No shipping address provided</p>
+                    <?php endif; ?>
                 </div>
             </div>
             
@@ -125,7 +138,7 @@ include('header.php');
                             <tr>
                                 <td>
                                     <div class="product-info">
-                                        <img src="assets/images/<?php echo htmlspecialchars($item['image']); ?>" 
+                                        <img src="assets/images/products/<?php echo htmlspecialchars($item['image']); ?>" 
                                              alt="<?php echo htmlspecialchars($item['product_name']); ?>"
                                              class="product-image">
                                         <span><?php echo htmlspecialchars($item['product_name']); ?></span>
