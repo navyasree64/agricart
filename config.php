@@ -41,19 +41,16 @@ if ($isLocalhost) {
     }
 } else {
     // ==========================================
-    // PRODUCTION SETTINGS (Render / InfinityFree)
-    // Render sets DB credentials as environment variables automatically.
-    // InfinityFree values are used as fallback.
+    // PRODUCTION SETTINGS (InfinityFree)
     // ==========================================
-    define('DB_HOST', getenv('DB_HOST') ?: 'sql207.infinityfree.com');
-    define('DB_USER', getenv('DB_USER') ?: 'if0_42108185');
-    define('DB_PASS', getenv('DB_PASS') ?: 'jpSlFNwdGePrqE');
-    define('DB_NAME', getenv('DB_NAME') ?: 'if0_42108185_agricart');
-    define('DB_PORT', getenv('DB_PORT') ?: 3306);
+    define('DB_HOST', 'sql207.infinityfree.com');
+    define('DB_USER', 'if0_42108185');
+    define('DB_PASS', 'jpSlFNwdGePrqE');
+    define('DB_NAME', 'if0_42108185_agricart');
+    define('DB_PORT', 3306);
 
-    // Build base URL — Render provides HTTPS automatically
-    $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
-    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
-    define('BASE_URL', $protocol . $host . '/');
+    // InfinityFree free plan - use http:// (no SSL on free tier)
+    $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'agricart.ifree.page';
+    define('BASE_URL', 'http://' . $host . '/');
 }
 
